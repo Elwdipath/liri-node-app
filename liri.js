@@ -1,24 +1,47 @@
 require('dotenv').config()
 // var keys = require("./keys.js")
 // var spotify = new spotify(keys.spotify);
+let moment = require('moment')
 
-var axios = require("axios");
+let axios = require("axios");
 
-var artist = "radiohead"
+// let artist = "dispatch";
 
-var con
+let liriAsk = process.argv[2];
 
-axios
-    .get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
+let liriSearch = process.argv.slice(3).join(" ")
+
+function search(){
+    console.log(liriAsk)
+    // if (liriAsk[2] === 'concert-this'){
+    //     console.log("concert")
+    switch(liriAsk){
+        case "concert-this": 
+            concerts();
+            break;
+        default:
+            console.log("Does not compute");
+    }
+        
+}
+
+function concerts(){
+    axios
+    .get("https://rest.bandsintown.com/artists/" + liriSearch + "/events?app_id=codingbootcamp")
     .then(function(res){
-        console.log(res.data)
+        // console.log(moment(res.data[0].datetime).format("MMM DD HH:mm"))
+
+        res.data.forEach(venue => {
+            console.log(venue.venue.name)
+        })
+
     }).catch(function(error) {
-        if (error.response) {
+        if (error.res) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          console.log(error.res.data);
+          console.log(error.res.status);
+          console.log(error.res.headers);
         } else if (error.request) {
           // The request was made but no response was received
           // `error.request` is an object that comes back with details pertaining to the error that occurred.
@@ -29,3 +52,8 @@ axios
         }
         console.log(error.config);
       });
+    }
+    
+    // concerts()
+    search()
+    // console.log(liriSearch)
