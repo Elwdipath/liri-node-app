@@ -32,7 +32,10 @@ function concerts(){
         // console.log(moment(res.data[0].datetime).format("MMM DD HH:mm"))
 
         res.data.forEach(venue => {
+            console.log("-------------------------")
             console.log(venue.venue.name)
+            console.log(venue.venue.city + venue.venue.region + venue.venue.country)
+            console.log(moment(venue.datetime).format("MMM DD YYYY, hh:mm a"))
         })
 
     }).catch(function(error) {
