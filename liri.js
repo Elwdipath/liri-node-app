@@ -1,7 +1,8 @@
-require('dotenv').config()
-// var keys = require("./keys.js")
-// var spotify = new spotify(keys.spotify);
-let moment = require('moment')
+require('dotenv').config();
+let keys = require("./keys.js");
+let Spotify = require('node-spotify-api');
+let spotifyS = new Spotify(keys.spotify);
+let moment = require('moment');
 
 let axios = require("axios");
 
@@ -12,12 +13,18 @@ let liriAsk = process.argv[2];
 let liriSearch = process.argv.slice(3).join(" ")
 
 function search(){
-    console.log(liriAsk)
+    // console.log(liriAsk)
     // if (liriAsk[2] === 'concert-this'){
     //     console.log("concert")
     switch(liriAsk){
         case "concert-this": 
             concerts();
+            break;
+        case "spotify-this-song":
+            spotify();
+            break;
+        case "movie-this":
+            movies();
             break;
         default:
             console.log("Does not compute");
@@ -30,7 +37,7 @@ function concerts(){
     .get("https://rest.bandsintown.com/artists/" + liriSearch + "/events?app_id=codingbootcamp")
     .then(function(res){
         // console.log(moment(res.data[0].datetime).format("MMM DD HH:mm"))
-
+        // console.log(res.data)
         res.data.forEach(venue => {
             console.log("-------------------------")
             console.log(venue.venue.name)
@@ -55,6 +62,30 @@ function concerts(){
         }
         console.log(error.config);
       });
+    }
+
+    function spotify(){
+      // console.log ("spotify is here")
+      spotifyS.search({type: 'track', query: liriSearch, limit: 5}).then(function(res){
+        // console.log(res.tracks.items)
+        // var song = res.tracks.items
+        
+        res.tracks.items.forEach(songs => {
+          console.log("==================");
+          console.log("Artist: " + songs.artists[0].name);
+          console.log("Song name: " + songs.name);
+          console.log("Preview song link: " + songs.external_urls['spotify']);
+          console.log("Album: " + songs.album.name);
+          console.log("------------------");
+        })
+      }).catch(function(err){
+        console.log(err)
+      })
+        
+    }
+
+    function movies(){
+
     }
     
     // concerts()
