@@ -5,6 +5,7 @@ let spotifyS = new Spotify(keys.spotify);
 let moment = require('moment');
 
 let axios = require("axios");
+let fs = require('fs')
 
 // let artist = "dispatch";
 
@@ -85,7 +86,27 @@ function concerts(){
     }
 
     function movies(){
+      axios
+        .get("http://www.omdbapi.com/?t=" + liriSearch + "&y=&plot=short&apikey=trilogy").then(
+          function(res){
+            // console.log(res.data)
+            console.log("==============" + liriSearch + "================")
+            console.log("Title: " + res.data.Title);
+            console.log("Year: " + res.data.Year);
+            console.log("IMDB Rating: " + res.data.imdbRating);
+            console.log("Rotten Tomatoes: " + res.data.Ratings[1].Value);
+            console.log("Country: " + res.data.Country);
+            console.log("Language: " + res.data.Language);
+            console.log("Plot: " + res.data.Plot);
+            console.log("Actors: " + res.data.Actors);
+          }
+        )
+    }
 
+    function random(){
+      fs.readFile('random.txt', utf8, function(err, data){
+        
+      })
     }
     
     // concerts()
