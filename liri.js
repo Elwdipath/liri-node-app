@@ -6,17 +6,10 @@ let moment = require('moment');
 
 let axios = require("axios");
 let fs = require('fs')
-
-// let artist = "dispatch";
-
 let liriAsk = process.argv[2];
-
 let liriSearch = process.argv.slice(3).join(" ")
 
 function search(){
-    // console.log(liriAsk)
-    // if (liriAsk[2] === 'concert-this'){
-    //     console.log("concert")
     switch(liriAsk){
         case "concert-this": 
             concerts();
@@ -27,10 +20,12 @@ function search(){
         case "movie-this":
             movies();
             break;
+        case "do-what-it-says":
+            random();
+            break;
         default:
             console.log("Does not compute");
-    }
-        
+    }      
 }
 
 function concerts(){
@@ -42,7 +37,7 @@ function concerts(){
         res.data.forEach(venue => {
             console.log("-------------------------")
             console.log(venue.venue.name)
-            console.log(venue.venue.city + venue.venue.region + venue.venue.country)
+            console.log(venue.venue.city + " " + venue.venue.region + " " + venue.venue.country)
             console.log(moment(venue.datetime).format("MMM DD YYYY, hh:mm a"))
         })
 
@@ -104,8 +99,27 @@ function concerts(){
     }
 
     function random(){
-      fs.readFile('random.txt', utf8, function(err, data){
-        
+      fs.readFile('random.txt', 'utf8', function(err, data){
+        if (err){
+          return(err)
+        }
+        var dataArr = data.split(",");
+        liriAsk = dataArr[0];
+        liriSearch = dataArr[1];
+
+        switch(liriAsk){
+          case "concert-this": 
+              concerts();
+              break;
+          case "spotify-this-song":
+              spotify();
+              break;
+          case "movie-this":
+              movies();
+              break;
+          default:
+              console.log("Does not compute");
+      }
       })
     }
     
