@@ -43,3 +43,6 @@
 * Axios- Used for api calls for OMDB and Bands in Town API's
 * Node-Spotify-API- Used to call Spotify api to get artist and song information
 * Dotenv- zero-dependency module used to load environment variables into process.env. 
+
+
+### https://github.com/Plurdle/liri-node-app
