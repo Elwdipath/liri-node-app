@@ -107,19 +107,7 @@ function concerts(){
         liriAsk = dataArr[0];
         liriSearch = dataArr[1];
 
-        switch(liriAsk){
-          case "concert-this": 
-              concerts();
-              break;
-          case "spotify-this-song":
-              spotify();
-              break;
-          case "movie-this":
-              movies();
-              break;
-          default:
-              console.log("Does not compute");
-      }
+        search()
       })
     }
     
